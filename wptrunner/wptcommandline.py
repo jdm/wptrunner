@@ -164,6 +164,7 @@ def set_from_config(kwargs):
             kwargs["test_paths"]["/"] = {}
         kwargs["test_paths"]["/"]["metadata_path"] = kwargs["metadata_root"]
 
+
 def get_test_paths(config):
     # Set up test_paths
     test_paths = OrderedDict()
@@ -177,7 +178,6 @@ def get_test_paths(config):
                 "metadata_path": manifest_opts.get_path("metadata")}
 
     return test_paths
-
 
 
 def check_args(kwargs):
