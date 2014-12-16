@@ -10,8 +10,10 @@ from collections import OrderedDict
 
 import config
 
+
 def abs_path(path):
     return os.path.abspath(os.path.expanduser(path))
+
 
 def url_or_path(path):
     import urlparse
@@ -66,6 +68,8 @@ def create_parser(product_choices=None):
 
     parser.add_argument("--binary", action="store",
                         type=abs_path, help="Binary to run tests against")
+    parser.add_argument("--webdriver-binary", action="store", metavar="BINARY",
+                        type=abs_path, help="WebDriver server binary to use")
     parser.add_argument("--test-types", action="store",
                         nargs="*", default=["testharness", "reftest"],
                         choices=["testharness", "reftest"],
@@ -260,10 +264,8 @@ def create_parser_update():
     parser.add_argument("--branch", action="store", type=abs_path,
                         help="Remote branch to sync against")
     parser.add_argument("--rev", action="store", help="Revision to sync to")
-    parser.add_argument("--no-check-clean", action="store_true", default=False,
-                        help="Don't check the working directory is clean before updating")
-    parser.add_argument("--patch", action="store_true",
-                        help="Create an mq patch or git commit containing the changes.")
+    parser.add_argument("--no-patch", action="store_true",
+                        help="Don't create an mq patch or git commit containing the changes.")
     parser.add_argument("--sync", dest="sync", action="store_true", default=False,
                         help="Sync the tests with the latest from upstream")
     parser.add_argument("--ignore-existing", action="store_true", help="When updating test results only consider results from the logfiles provided, not existing expectations.")
@@ -288,11 +290,13 @@ def parse_args():
     check_args(rv)
     return rv
 
+
 def parse_args_update():
     parser = create_parser_update()
     rv = vars(parser.parse_args())
     set_from_config(rv)
     return rv
+
 
 def parse_args_reduce():
     parser = create_parser_reduce()
