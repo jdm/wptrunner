@@ -3,8 +3,6 @@
 # You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import pytest
-import webdriver
-
 
 """pytest fixtures for use in Python-based WPT tests.
 
@@ -12,6 +10,10 @@ The purpose of test fixtures is to provide a fixed baseline upon which
 tests can reliably and repeatedly execute.
 """
 
+@pytest.fixture
+def webdriver():
+    import webdriver
+    return webdriver
 
 class Session(object):
     """Fixture to allow access to wptrunner's existing WebDriver session
